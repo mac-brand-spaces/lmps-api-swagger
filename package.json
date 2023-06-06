@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "swagger-cli": "^4.0.4",
+    "swagger-typescript-api": "^12.0.4"
+  },
+  "scripts": {
+    "start": "npx swagger-typescript-api -p ./lmps-api.yaml -o ./dist -d -n api_types.d.ts --no-client --route-types --extract-response-error --add-readonly && npx swagger-cli bundle -o ./dist/openapi.json ./lmps-api.yaml",
+    "test": "npx swagger-cli validate ./lmps-api.yaml"
+  }
+}
