@@ -18,7 +18,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "npx swagger-cli validate ./lmps-api.yaml",
+    "lint": "npx swagger-cli validate ./src/lmps-api.yaml",
     "generate-typescript-types": "npx swagger-typescript-api -p ./src/lmps-api.yaml -o ./dist -d -n api_types.d.ts --silent --no-client --route-types --extract-response-error --add-readonly",
     "generate-json": "npx swagger-cli bundle -t json -o ./dist/openapi.json ./src/lmps-api.yaml",
     "postinstall": "npm run generate-typescript-types && npm run generate-json"
