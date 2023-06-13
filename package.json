@@ -1,10 +1,41 @@
 {
+  "name": "@mac-brand-spaces/lmps-api-swagger",
+  "version": "0.0.1",
+  "description": "Swagger documentation for the LMPS API",
+  "main": "./src/lmps-api.yaml",
+  "dist": {
+    "type": "module",
+    "exports": {
+      "openapi": "./dist/openapi.json",
+      "types": "./dist/api_types.d.ts"
+    }
+  },
+  "displayName": "LMPS API - Swagger",
+  "icon": "./images/lmps-api-swagger.png",
+  "directories": {
+    "images": "./images"
+  },
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "npx swagger-cli validate ./src/lmps-api.yaml",
+    "generate-typescript-types": "npx swagger-typescript-api -p ./src/lmps-api.yaml -o ./dist -d -n api_types.d.ts --silent --no-client --route-types --extract-response-error --add-readonly",
+    "generate-json": "npx swagger-cli bundle -t json -o ./dist/openapi.json ./src/lmps-api.yaml",
+    "postinstall": "npm run generate-typescript-types && npm run generate-json"
+  },
+  "keywords": ["swagger", "api", "lmps", "lmpsplus"],
+  "author": "mac-brand-spaces",
+  "contributors": [
+    {
+      "name": "Marius Kehl",
+      "url": "https://github.com/merofuruya",
+      "email": "marius.kehl@mac.de"
+    }
+  ],
+  "license": "ISC",
   "dependencies": {
     "swagger-cli": "^4.0.4",
     "swagger-typescript-api": "^12.0.4"
   },
-  "scripts": {
-    "start": "npx swagger-typescript-api -p ./lmps-api.yaml -o ./dist -d -n api_types.d.ts --no-client --route-types --extract-response-error --add-readonly && npx swagger-cli bundle -o ./dist/openapi.json ./lmps-api.yaml",
-    "test": "npx swagger-cli validate ./lmps-api.yaml"
-  }
+  "repository": "https://github.com/mac-brand-spaces/lmps-api-swagger"
 }
