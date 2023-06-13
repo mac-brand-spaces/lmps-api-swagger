@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://github.com/mac-brand-spaces/lmps-api">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="https://raw.githubusercontent.com/mac-brand-spaces/lmps-api-swagger/main/images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
 <h3 align="center">LMPS API - Swagger</h3>
@@ -96,6 +96,6 @@ Project Link: [https://github.com/mac-brand-spaces/lmps-api](https://github.com/
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[product-screenshot]: images/screenshot.png
+[product-screenshot]: https://raw.githubusercontent.com/mac-brand-spaces/lmps-api-swagger/main/images/screenshot.png
 [swagger]: https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=black
 [swagger-url]: https://swagger.io/
