@@ -12,10 +12,7 @@
     }
   },
   "displayName": "LMPS API - Swagger",
-  "icon": "./images/lmps-api-swagger.png",
-  "directories": {
-    "images": "./images"
-  },
+  "icon": "https://raw.githubusercontent.com/mac-brand-spaces/lmps-api-swagger/main/images/logo.png",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
