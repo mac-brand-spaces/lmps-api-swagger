@@ -1,8 +1,9 @@
 {
   "name": "@mac-brand-spaces/lmps-api-swagger",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Swagger documentation for the LMPS API",
-  "main": "./src/lmps-api.yaml",
+  "main": "./index.js",
+  "types": "./types/index.d.ts",
   "dist": {
     "type": "module",
     "exports": {
@@ -11,11 +12,8 @@
     }
   },
   "displayName": "LMPS API - Swagger",
-  "icon": "./images/lmps-api-swagger.png",
-  "directories": {
-    "images": "./images"
-  },
-  "type": "module",
+  "icon": "https://raw.githubusercontent.com/mac-brand-spaces/lmps-api-swagger/main/images/logo.png",
+  "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "npx swagger-cli validate ./src/lmps-api.yaml",
