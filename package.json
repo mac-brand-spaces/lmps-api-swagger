@@ -2,7 +2,8 @@
   "name": "@mac-brand-spaces/lmps-api-swagger",
   "version": "0.0.1",
   "description": "Swagger documentation for the LMPS API",
-  "main": "./src/lmps-api.yaml",
+  "main": "",
+  "types": "./types/index.d.ts",
   "dist": {
     "type": "module",
     "exports": {
