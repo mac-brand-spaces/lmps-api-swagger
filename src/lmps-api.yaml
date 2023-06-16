@@ -1,18 +1,15 @@
 openapi: 3.0.3
 info:
-  title: LMPS-API 1.0
+  title: LMPS-API
   description: |-
     This is a wip API for the LMPS and external ressources.
   termsOfService: https://www.mac.de/en/terms-and-conditions/
   contact:
-    email: marius.kehl@mac.de
-  license:
-    name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
-  version: 1.0.0
+    email: dev@mac.de
+  version: 0.0.2
 externalDocs:
   description: github
-  url: http://github.com/mac./
+  url: http://github.com/mac-brand-spaces/
 servers:
   - url: https://api.mac.de/api/v1
     description: Production server
@@ -20,6 +17,8 @@ servers:
     description: Development server
   - url: http://localhost:3000/api/v1
     description: Local development server
+  - url: https://lalovosnjsp001.mac-rz.net:3000/
+    description: Current testing server
 tags:
   - name: project
     description: Everything about projects
@@ -160,9 +159,8 @@ paths:
           $ref: '#/components/responses/ErrorBadRequest'
       security:
         - bearerAuth:
-          - projects.read
-          - projects.read.all
-        - lmpsLegacy: []
+          - read:project
+          - read:project.all
     post:
       tags:
         - project
@@ -190,9 +188,7 @@ paths:
           $ref: '#/components/responses/ErrorBadRequest'
       security:
         - bearerAuth:
-          - projects.write
-          - projects.write.all
-        - lmpsLegacy: []
+          - create:project
   /projects/{id}:
     get:
       tags:
@@ -216,9 +212,8 @@ paths:
           $ref: '#/components/responses/ErrorNotFound'
       security:
         - bearerAuth:
-          - projects.read
-          - projects.read.all
-        - lmpsLegacy: []
+          - read:project
+          - read:project.all
     put:
       tags:
         - project
@@ -250,9 +245,8 @@ paths:
           $ref: '#/components/responses/ErrorNotFound'
       security:
         - bearerAuth:
-          - projects.write
-          - projects.write.all
-        - lmpsLegacy: []
+          - update:project
+          - update:project.all
     delete:
       tags:
         - project
@@ -271,8 +265,8 @@ paths:
           $ref: '#/components/responses/ErrorNotFound'
       security:
         - bearerAuth:
-          - projects.delete
-        - lmpsLegacy: []
+          - delete:project
+          - delete:project.all
   /customers:
     get:
       tags:
@@ -342,9 +336,8 @@ paths:
           $ref: '#/components/responses/ErrorBadRequest'
       security:
         - bearerAuth:
-          - customers.read
-          - customers.read.all
-        - lmpsLegacy: []
+          - read:customer
+          - read:customer.all
     post:
       tags:
         - customer
@@ -372,9 +365,7 @@ paths:
           $ref: '#/components/responses/ErrorBadRequest'
       security:
         - bearerAuth:
-          - customers.write
-          - customers.write.all
-        - lmpsLegacy: []
+          - create:customer
   /customers/{id}:
     get:
       tags:
@@ -398,9 +389,8 @@ paths:
           $ref: '#/components/responses/ErrorNotFound'
       security:
         - bearerAuth:
-          - customers.read
-          - customers.read.all
-        - lmpsLegacy: []
+          - read:customer
+          - read:customer.all
     put:
       tags:
         - customer
@@ -432,9 +422,8 @@ paths:
           $ref: '#/components/responses/ErrorNotFound'
       security:
         - bearerAuth:
-          - customers.write
-          - customers.write.all
-        - lmpsLegacy: []
+          - update:customer
+          - update:customer.all
     delete:
       tags:
         - customer
@@ -453,8 +442,7 @@ paths:
           $ref: '#/components/responses/ErrorNotFound'
       security:
         - bearerAuth:
-          - customers.delete
-        - lmpsLegacy: []
+          - delete:customer
   /events:
     get:
       tags:
@@ -524,9 +512,8 @@ paths:
           $ref: '#/components/responses/ErrorBadRequest'
       security:
         - bearerAuth:
-          - events.read
-          - events.read.all
-        - lmpsLegacy: []
+          - read:event
+          - read:event.all
     post:
       tags:
         - event
@@ -554,9 +541,7 @@ paths:
           $ref: '#/components/responses/ErrorBadRequest'
       security:
         - bearerAuth:
-          - events.write
-          - events.write.all
-        - lmpsLegacy: []
+          - create:event
   /events/{id}:
     get:
       tags:
@@ -580,9 +565,8 @@ paths:
           $ref: '#/components/responses/ErrorNotFound'
       security:
         - bearerAuth:
-          - events.read
-          - events.read.all
-        - lmpsLegacy: []
+          - read:event
+          - read:event.all
     put:
       tags:
         - event
@@ -614,9 +598,8 @@ paths:
           $ref: '#/components/responses/ErrorNotFound'
       security:
         - bearerAuth:
-          - events.write
-          - events.write.all
-        - lmpsLegacy: []
+          - update:event
+          - update:event.all
     delete:
       tags:
         - event
@@ -635,11 +618,8 @@ paths:
           $ref: '#/components/responses/ErrorNotFound'
       security:
         - bearerAuth:
-          - events.delete
-        - lmpsLegacy: []
-
-
-
+          - delete:event
+          - delete:event.all
 
 
 components:
@@ -1207,46 +1187,41 @@ components:
       type: oauth2
       flows:
         authorizationCode:
-          authorizationUrl: /oauth/authorize
-          tokenUrl: /oauth/token
-          refreshUrl: /oauth/token
+          tokenUrl: https://macbrandspaces-test.eu.auth0.com/oauth/token
+          authorizationUrl: https://macbrandspaces-test.eu.auth0.com/authorize
           scopes:
-            project.read: read access to projects a user is assigned to
-            project.read.all: read access to all projects
-            project.write: write access to projects a user is assigned to
-            project.write.all: write access to all projects
-            project.delete: delete access to all projects
-            customer.read: read access to customers a user is assigned to
-            customer.read.all: read access to all customers
-            customer.write: write access to customers a user is assigned to
-            customer.write.all: write access to all customers
-            customer.delete: delete access to all customers
-            event.read: read access to events a user is assigned to
-            event.read.all: read access to all events
-            event.write: write access to events a user is assigned to
-            event.write.all: write access to all events
-            event.delete: delete access to all events
-
-        clientCredentials:
-          tokenUrl: /oauth/token
-          refreshUrl: /oauth/token
-          scopes:
-            project.read: read access to projects
-            project.write: write access to projects
-            project.delete: delete access to projects
-            customer.read: read access to customers
-            customer.write: write access to customers
-            customer.delete: delete access to customers
-            event.read: read access to events
-            event.write: write access to events
-            event.delete: delete access to events
-
-    lmpsLegacy:
-      type: apiKey
-      in: header
-      name: Authorization
-      description: |-
-        This is a legacy access token for the LMPS API.
-        It is used to access the LMPS API from the LMPS classic client.
-        This must be only possible when being "in the office".
-        This method MUST NOT BE USED by any other client.
+            openid: openid - required by default
+            profile: |
+              returns claims that represent basic profile information, including 
+              name,
+              family_name,
+              given_name,
+              middle_name,
+              nickname,
+              picture, and
+              updated_at.
+            email: |
+              Returns the email claim, which contains the user's email address, 
+              and email_verified, which is a boolean indicating whether the email address was verified by the user.
+            offline_access: offline_access
+            "read:project": Read Project user is assigned to
+            "read:project.all": Read all projects
+            "create:project": Create a new project
+            "update:project": Update a project the user is assigned to
+            "update:project.all": Update all projects
+            "delete:project": Delete a project the user is assigned to
+            "delete:project.all": Delete all projects
+            "read:customer": Read Customer user is assigned to
+            "read:customer.all": Read all customers
+            "create:customer": Create a new customer
+            "update:customer": Update a customer the user is assigned to
+            "update:customer.all": Update all customers
+            "delete:customer": Delete a customer the user is assigned to
+            "delete:customer.all": Delete all customers
+            "read:event": Read Event user is assigned to
+            "read:event.all": Read all events
+            "create:event": Create a new event
+            "update:event": Update a event the user is assigned to
+            "update:event.all": Update all events
+            "delete:event": Delete a event the user is assigned to
+            "delete:event.all": Delete all events
