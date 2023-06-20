@@ -1188,7 +1188,8 @@ components:
       flows:
         authorizationCode:
           tokenUrl: https://macbrandspaces-test.eu.auth0.com/oauth/token
-          authorizationUrl: https://macbrandspaces-test.eu.auth0.com/authorize
+          authorizationUrl: https://macbrandspaces-test.eu.auth0.com/authorize?audience=https://lmps.mac.de/api
+          refreshUrl: https://macbrandspaces-test.eu.auth0.com/oauth/token
           scopes:
             openid: openid - required by default
             profile: |
@@ -1203,7 +1204,8 @@ components:
             email: |
               Returns the email claim, which contains the user's email address, 
               and email_verified, which is a boolean indicating whether the email address was verified by the user.
-            offline_access: offline_access
+            offline_access: |
+              returns a refresh token that can be used to acquire a new access token when the original expires.
             "read:project": Read Project user is assigned to
             "read:project.all": Read all projects
             "create:project": Create a new project
