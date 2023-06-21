@@ -1,0 +1,246 @@
+paths:
+  /customers:
+    get:
+      tags:
+        - customer
+      summary: Get customers
+      description: |-
+        Returns a list of customers.
+      operationId: getCustomers
+      parameters:
+        - $ref: './general.yaml#/components/parameters/limit'
+        - $ref: './general.yaml#/components/parameters/page'
+        - name: $oderby
+          in: query
+          required: false
+          schema:
+            type: string
+            example: name.short_name
+        - name: name.name0
+          in: query
+          required: false
+          schema:
+            type: string
+            example: MAC
+        - name: name.name0
+          in: query
+          required: false
+          schema:
+            type: string
+            example: mac. exebition stands
+        - name: name.name1
+          in: query
+          required: false
+          schema:
+            type: string
+            example: mac. brand spaces
+        - name: name.name2
+          in: query
+          required: false
+          schema:
+            type: string
+            example: mac. Langenlonsheim
+        - name: created_at
+          in: query
+          required: false
+          schema:
+            type: string
+            schema: date-time
+            example: 2020-01-01T00:00:00.000Z
+        - name: updated_at
+          in: query
+          required: false
+          schema:
+            type: string
+            schema: date-time
+            example: 2020-01-01T00:00:00.000Z
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Customer'
+                  meta:
+                    $ref: './general.yaml#/components/schemas/Meta'
+        '400':
+          $ref: './general.yaml#/components/responses/ErrorBadRequest'
+      security:
+        - bearerAuth:
+          - read:customer
+          - read:customer.all
+    post:
+      tags:
+        - customer
+      summary: Create a customer
+      description: |-
+        Creates a customer.
+      operationId: createCustomer
+      requestBody:
+        description: |-
+          Customer object
+          database_name: Kunde
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          $ref: './general.yaml#/components/responses/ErrorBadRequest'
+      security:
+        - bearerAuth:
+          - create:customer
+  /customers/{id}:
+    get:
+      tags:
+        - customer
+      summary: Get a customer
+      description: |-
+        Returns a customer.
+      operationId: getCustomer
+      parameters:
+        - $ref: './general.yaml#/components/parameters/id'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          $ref: './general.yaml#/components/responses/ErrorBadRequest'
+        '404':
+          $ref: './general.yaml#/components/responses/ErrorNotFound'
+      security:
+        - bearerAuth:
+          - read:customer
+          - read:customer.all
+    put:
+      tags:
+        - customer
+      summary: Update a customer
+      description: |-
+        Updates a customer.
+      operationId: updateCustomer
+      parameters:
+        - $ref: './general.yaml#/components/parameters/id'
+      requestBody:
+        description: |-
+          Customer object
+          database_name: Kunde
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          $ref: './general.yaml#/components/responses/ErrorBadRequest'
+        '404':
+          $ref: './general.yaml#/components/responses/ErrorNotFound'
+      security:
+        - bearerAuth:
+          - update:customer
+          - update:customer.all
+    delete:
+      tags:
+        - customer
+      summary: Delete a customer
+      description: |-
+        Deletes a customer.
+      operationId: deleteCustomer
+      parameters:
+        - $ref: './general.yaml#/components/parameters/id'
+      responses:
+        '204':
+          description: Successful response
+        '400':
+          $ref: './general.yaml#/components/responses/ErrorBadRequest'
+        '404':
+          $ref: './general.yaml#/components/responses/ErrorNotFound'
+      security:
+        - bearerAuth:
+          - delete:customer
+components:
+  schemas:
+    Customer:
+      type: object
+      description: |-
+        Customer object
+        database_name: Kunde
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+          readOnly: true
+          nullable: false
+          maxLength: 36
+        name:
+          type: object
+          properties:
+            short_name:
+              type: string
+              nullable: false
+              example: MAC
+              maxLength: 15
+              description: |-
+                database_name: Bez
+            name0:
+              type: string
+              nullable: true
+              example: mac. exebition stands
+              maxLength: 30
+              description: |-
+                database_name: Anrede
+            name1:
+              type: string
+              nullable: true
+              maxLength: 45
+              example: mac. brand spaces
+            name2:
+              type: string
+              nullable: true
+              maxLength: 45
+              example: mac. Langenlonsheim
+        location:
+          $ref: './location.yaml#/components/schemas/Location'
+        contacts:
+          type: array
+          items:
+            $ref: './contact.yaml#/components/schemas/Contact'
+        products:
+          type: array
+          items:
+            type: string
+            example: Test Product
+            maxLength: 240
+        sales:
+          type: string
+          example: idk //TODO
+        created_at:
+          type: string
+          format: date-time
+          example: 2020-01-01T00:00:00.000Z
+        updated_at:
+          type: string
+          format: date-time
+          example: 2020-01-01T00:00:00.000Z

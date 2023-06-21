@@ -1,0 +1,433 @@
+paths:
+  /projects:
+    get:
+      tags:
+        - project
+      summary: Get all projects
+      description: |-
+        Returns all projects.
+        This endpoint is paginated.
+      operationId: getProjects
+      parameters:
+        - $ref: './general.yaml#/components/parameters/page'
+        - $ref: './general.yaml#/components/parameters/limit'
+        - name: $orderby
+          in: query
+          required: false
+          schema:
+            type: string
+            default: event.start_date asc
+            example: created_at asc
+        - name: $expand
+          in: query
+          required: false
+          schema:
+            type: string
+            example: customer,event
+        - name: event_id
+          in: query
+          required: false
+          schema:
+            type: string
+            format: uuid
+            maxLength: 36
+            example: 123e4567-e89b-12d3-a456-426614174000
+        - name: project_number
+          in: query
+          required: false
+          schema:
+            type: string
+            example: 1234
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            example: AN
+            enum:
+              - AN
+              - AG
+              - AF
+              - OE
+              - AU
+              - XX
+        - name: af_date
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+            example: 2020-01-01T00:00:00.000Z
+        - name: ag_date
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+            example: 2020-01-01T00:00:00.000Z
+        - name: au_date
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+            example: 2020-01-01T00:00:00.000Z
+        - name: customer_id
+          in: query
+          required: false
+          schema:
+            type: string
+            format: uuid
+            maxLength: 36
+            example: 123e4567-e89b-12d3-a456-426614174000
+        - name: costunit_number
+          in: query
+          required: false
+          schema:
+            type: string
+            example: 1234
+        - name: title
+          in: query
+          required: false
+          schema:
+            type: string
+            example: Projekt
+        - name: area
+          in: query
+          required: false
+          schema:
+            type: number
+            format: float
+            example: 1
+        - name: depth
+          in: query
+          required: false
+          schema:
+            type: number
+            format: float
+            example: 1
+        - name: width
+          in: query
+          required: false
+          schema:
+            type: number
+            format: float
+            example: 1
+        - name: hall_number
+          in: query
+          required: false
+          schema:
+            type: string
+            example: 1
+        - name: booth_number
+          in: query
+          required: false
+          schema:
+            type: string
+            example: 1
+        - name: booth_type
+          in: query
+          required: false
+          schema:
+            type: string
+            example: KOPF
+            enum:
+              - KOPF
+              - REIHE
+              - ZELT
+              - BLOCK
+              - KEINE
+              - ECK
+              - PARTN
+        - name: created_at
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            example: 2020-01-01T00:00:00.000Z
+        - name: updated_at
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            example: 2020-01-01T00:00:00.000Z
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Project'
+                  meta:
+                    $ref: './general.yaml#/components/schemas/Meta'
+        '400':
+          $ref: './general.yaml#/components/responses/ErrorBadRequest'
+      security:
+        - bearerAuth:
+          - read:project
+          - read:project.all
+    post:
+      tags:
+        - project
+      summary: Create a project
+      description: |-
+        Creates a project.
+      operationId: createProject
+      requestBody:
+        description: |-
+          Project object
+          database_name: Projekt
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          $ref: './general.yaml#/components/responses/ErrorBadRequest'
+      security:
+        - bearerAuth:
+          - create:project
+  /projects/{id}:
+    get:
+      tags:
+        - project
+      summary: Get a project
+      description: |-
+        Returns a project.
+      operationId: getProject
+      parameters:
+        - $ref: './general.yaml#/components/parameters/id'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          $ref: './general.yaml#/components/responses/ErrorBadRequest'
+        '404':
+          $ref: './general.yaml#/components/responses/ErrorNotFound'
+      security:
+        - bearerAuth:
+          - read:project
+          - read:project.all
+    put:
+      tags:
+        - project
+      summary: Update a project
+      description: |-
+        Updates a project.
+      operationId: updateProject
+      parameters:
+        - $ref: './general.yaml#/components/parameters/id'
+      requestBody:
+        description: |-
+          Project object
+          database_name: Projekt
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          $ref: './general.yaml#/components/responses/ErrorBadRequest'
+        '404':
+          $ref: './general.yaml#/components/responses/ErrorNotFound'
+      security:
+        - bearerAuth:
+          - update:project
+          - update:project.all
+    delete:
+      tags:
+        - project
+      summary: Delete a project
+      description: |-
+        Deletes a project.
+      operationId: deleteProject
+      parameters:
+        - $ref: './general.yaml#/components/parameters/id'
+      responses:
+        '204':
+          description: Successful response
+        '400':
+          $ref: './general.yaml#/components/responses/ErrorBadRequest'
+        '404':
+          $ref: './general.yaml#/components/responses/ErrorNotFound'
+      security:
+        - bearerAuth:
+          - delete:project
+          - delete:project.all
+
+components:
+  schemas:
+    Project:
+      type: object
+      description: |-
+        Project object
+        database_name: Projekt
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+          readOnly: true
+          nullable: false
+          maxLength: 36
+        event_id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+          maxLength: 36
+        event:
+          type: object
+          nullable: true
+          default: null
+          $ref: './events.yaml#/components/schemas/Event'
+        project_number:
+          type: string
+          example: 1234
+          maxLength: 3
+          readOnly: true
+        status:
+          type: string
+          format: enum
+          example: AN
+          maxLength: 2
+          maxItems: 1
+          enum:
+            - AN
+            - AG
+            - AF
+            - OE
+            - AU
+            - XX
+          description: |-
+            AN = Request (Anfrage)
+            AG = Offer (Angebot)
+            AF = Order (Auftrag)
+            OE = Open items (Offene Posten)
+            AU = Completed (Abgeschlossen)
+            XX = Canceled (Storniert)
+        af_date:
+          type: string
+          format: date-time
+          example: 2020-01-01T00:00:00.000Z
+          nullable: true
+          readOnly: true
+        ag_date:
+          type: string
+          format: date-time
+          example: 2020-01-01T00:00:00.000Z
+          nullable: true
+          readOnly: true
+        au_date:
+          type: string
+          format: date-time
+          example: 2020-01-01T00:00:00.000Z
+          nullable: true
+          readOnly: true
+        customer_id: 
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+          maxLength: 36
+        customer:
+          $ref: './customers.yaml#/components/schemas/Customer'
+        costunit_number:
+          type: string
+          example: 010001
+          maxLength: 6
+          readOnly: true
+        title:
+          type: string
+          example: Test Project
+          maxLength: 60
+          nullable: true
+        description_id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+          maxLength: 36
+          nullable: true
+        description:
+          type: object
+          nullable: true
+          default: null
+          $ref: './descriptions.yaml#/components/schemas/Description'
+        area:
+          type: number
+          format: float
+          example: 1234.56
+          nullable: true
+        depth:
+          type: number
+          format: float
+          example: 1234.56
+          nullable: true
+        hall_number:
+          type: string
+          example: 1234
+          maxLength: 4
+        width:
+          type: number
+          format: float
+          example: 1234.56
+          nullable: true
+        booth_number:
+          type: string
+          example: 1234
+          maxLength: 10
+          nullable: true
+        booth_type:
+          type: string
+          format: enum
+          maxLength: 5
+          enum:
+            - KOPF
+            - REIHE
+            - ZELT
+            - BLOCK
+            - KEINE
+            - ECK
+            - PARTN
+          description: |-
+            KOPF = Head-booth (Kopfstand)
+            REIHE = Row-booth (Reihenstand)
+            ZELT = Tent-booth (Zeltstand)
+            BLOCK = Block-booth (Blockstand)
+            KEINE = not specified (keine Angabe)
+            ECK = Corner-booth (Eckstand)
+            PARTN = Partner-booth (Partnerstand)
+          example: KOPF
+        created_at:
+          type: string
+          format: date-time
+          example: 2020-01-01T00:00:00.000Z
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          example: 2020-01-01T00:00:00.000Z
+          readOnly: true

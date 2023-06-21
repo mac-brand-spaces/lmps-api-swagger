@@ -1,0 +1,296 @@
+paths:
+  /events:
+    get:
+      tags:
+        - event
+      summary: Get events
+      description: |-
+        Returns a list of events.
+      operationId: getEvents
+      parameters:
+        - $ref: './general.yaml#/components/parameters/limit'
+        - $ref: './general.yaml#/components/parameters/page'
+        - name: $orderby
+          in: query
+          required: false
+          schema:
+            type: string
+            default: start_date asc
+            example: start_date asc
+        - name: $expand
+          in: query
+          required: false
+          schema:
+            type: string
+            default: customer
+            example: alternative_event
+        - name: event_id
+          in: query
+          required: false
+          schema:
+            type: string
+            example: 1
+        - name: title
+          in: query
+          required: false
+          schema:
+            type: string
+            example: Test Event
+        - name: customer_id
+          in: query
+          required: false
+          schema:
+            type: string
+            example: 1
+        - name: start_date
+          in: query
+          required: false
+          schema:
+            type: string
+            schema: date-time
+            example: 2020-01-01T00:00:00.000Z
+        - name: end_date
+          in: query
+          required: false
+          schema:
+            type: string
+            schema: date-time
+            example: 2020-01-01T00:00:00.000Z
+        - name: cancel_state.cancelled
+          in: query
+          required: false
+          schema:
+            type: boolean
+            example: true
+        - name: cancel_state.cancelled_at
+          in: query
+          required: false
+          schema:
+            type: string
+            schema: date-time
+            example: 2020-01-01T00:00:00.000Z
+        - name: cancel_state.reason
+          in: query
+          required: false
+          schema:
+            type: string
+            example: Test Reason
+        - name: cancel_state.alternative_event_id
+          in: query
+          required: false
+          schema:
+            type: string
+            format: uuid
+            example: 123e4567-e89b-12d3-a456-426614174000
+        - name: created_at
+          in: query
+          required: false
+          schema:
+            type: string
+            schema: date-time
+            example: 2020-01-01T00:00:00.000Z
+        - name: updated_at
+          in: query
+          required: false
+          schema:
+            type: string
+            schema: date-time
+            example: 2020-01-01T00:00:00.000Z
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Event'
+                  meta:
+                    $ref: './general.yaml#/components/schemas/Meta'
+        '400':
+          $ref: './general.yaml#/components/responses/ErrorBadRequest'
+      security:
+        - bearerAuth:
+          - read:event
+          - read:event.all
+    post:
+      tags:
+        - event
+      summary: Create an event
+      description: |-
+        Creates an event.
+      operationId: createEvent
+      requestBody:
+        description: |-
+          Event object
+          database_name: Veranstaltung
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '400':
+          $ref: './general.yaml#/components/responses/ErrorBadRequest'
+      security:
+        - bearerAuth:
+          - create:event
+  /events/{id}:
+    get:
+      tags:
+        - event
+      summary: Get an event
+      description: |-
+        Returns an event.
+      operationId: getEvent
+      parameters:
+        - $ref: './general.yaml#/components/parameters/id'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '400':
+          $ref: './general.yaml#/components/responses/ErrorBadRequest'
+        '404':
+          $ref: './general.yaml#/components/responses/ErrorNotFound'
+      security:
+        - bearerAuth:
+          - read:event
+          - read:event.all
+    put:
+      tags:
+        - event
+      summary: Update an event
+      description: |-
+        Updates an event.
+      operationId: updateEvent
+      parameters:
+        - $ref: './general.yaml#/components/parameters/id'
+      requestBody:
+        description: |-
+          Event object
+          database_name: Veranstaltung
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '400':
+          $ref: './general.yaml#/components/responses/ErrorBadRequest'
+        '404':
+          $ref: './general.yaml#/components/responses/ErrorNotFound'
+      security:
+        - bearerAuth:
+          - update:event
+          - update:event.all
+    delete:
+      tags:
+        - event
+      summary: Delete an event
+      description: |-
+        Deletes an event.
+      operationId: deleteEvent
+      parameters:
+        - $ref: './general.yaml#/components/parameters/id'
+      responses:
+        '204':
+          description: Successful response
+        '400':
+          $ref: './general.yaml#/components/responses/ErrorBadRequest'
+        '404':
+          $ref: './general.yaml#/components/responses/ErrorNotFound'
+      security:
+        - bearerAuth:
+          - delete:event
+          - delete:event.all
+
+components:
+  schemas:
+
+    Event:
+      type: object
+      description: |-
+        Event object
+        database_name: Messe
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+          readOnly: true
+          nullable: false
+          maxLength: 36
+        event_id:
+          type: string
+          example: 12345
+          maxLength: 5
+        title:
+          type: string
+          example: Test Event
+          maxLength: 30
+        location:
+          $ref: './location.yaml#/components/schemas/Location'
+        revision:
+          type: number
+          format: int32
+          example: 1
+        start_date:
+          type: string
+          format: date-time
+          example: 2020-01-01T00:00:00.000Z
+        end_date:
+          type: string
+          format: date-time
+          example: 2020-01-01T00:00:00.000Z
+        cancel_state:
+          nullable: true
+          type: object
+          properties:
+            canceled:
+              type: boolean
+              example: true
+            canceled_at:
+              type: string
+              format: date-time
+              example: 2020-01-01T00:00:00.000Z
+            reason:
+              type: string
+              example: Test Reason
+            alternative_event_id:
+              type: string
+              format: uuid
+              example: 123e4567-e89b-12d3-a456-426614174000
+              maxLength: 36
+            alternative_event:
+              type: object
+              nullable: true
+              default: null
+              schema:
+                $ref: '#/components/schemas/Event'
+        created_at:
+          type: string
+          format: date-time
+          example: 2020-01-01T00:00:00.000Z
+        updated_at:
+          type: string
+          format: date-time
+          example: 2020-01-01T00:00:00.000Z

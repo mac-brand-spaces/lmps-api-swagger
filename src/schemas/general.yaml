@@ -1,0 +1,126 @@
+components:
+  parameters:
+    page:
+      name: $page
+      in: query
+      description: |-
+        The page number to return.
+        Defaults to 1.
+      required: false
+      schema:
+        type: string
+        format: int32
+        minimum: 1
+        default: 1
+    limit:
+      name: $limit
+      in: query
+      description: |-
+        The number of items to return per page.
+        Defaults to 10.
+      required: false
+      schema:
+        type: string
+        format: int32
+        minimum: 1
+        maximum: 100
+        default: 10
+    id:
+      name: id
+      in: path
+      description: |-
+        The id of the item to retrieve.
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    ErrorNotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+                example: 404
+              message:
+                type: string
+                example: The requested resource was not found
+              timestamp:
+                type: string
+                format: date-time
+                example: 2020-01-01T00:00:00.000Z
+              path:
+                type: string
+                example: /api/v1/projects/123e4567-e89b-12d3-a456-426614174000
+              lmps_tracking_id:
+                type: string
+                example: 123e4567-e89b-12d3-a456-426614174000
+    ErrorBadRequest:
+      description: The request was invalid or cannot be otherwise served
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+                example: 400
+              message:
+                type: string
+                example: The request was invalid or cannot be otherwise served
+              timestamp:
+                type: string
+                format: date-time
+                example: 2020-01-01T00:00:00.000Z
+              path:
+                type: string
+                example: /api/v1/projects/123e4567-e89b-12d3-a456-426614174000
+              lmps_tracking_id:
+                type: string
+                example: 123e4567-e89b-12d3-a456-426614174000
+  schemas:
+    Meta:
+      type: object
+      properties:
+        pagination:
+          type: object
+          properties:
+            total:
+              type: integer
+              format: int32
+              example: 1
+              description: Total number of items available
+            count:
+              type: integer
+              format: int32
+              example: 1
+              description: Number of items returned
+            per_page:
+              type: integer
+              format: int32
+              example: 1
+              description: Number of items per page
+            current_page:
+              type: integer
+              format: int32
+              example: 1
+              description: Current page
+            total_pages:
+              type: integer
+              format: int32
+              example: 1
+              description: Total number of pages
+            links:
+              type: object
+              properties:
+                previous:
+                  type: string
+                  example: http://example.com/api/v1/projects?page=1
+                next:
+                  type: string
+                  example: http://example.com/api/v1/projects?page=3
