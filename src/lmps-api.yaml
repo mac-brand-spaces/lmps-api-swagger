@@ -87,7 +87,41 @@ components:
           nullable: true
           deprecated: true
         # TODO: add more properties here
-
+  parameters:
+    page:
+      name: $page
+      in: query
+      description: |-
+        The page number to return.
+        Defaults to 1.
+      required: false
+      schema:
+        type: string
+        format: int32
+        minimum: 1
+        default: 1
+    limit:
+      name: $limit
+      in: query
+      description: |-
+        The number of items to return per page.
+        Defaults to 10.
+      required: false
+      schema:
+        type: string
+        format: int32
+        minimum: 1
+        maximum: 100
+        default: 10
+    id:
+      name: id
+      in: path
+      description: |-
+        The id of the item to retrieve.
+      required: true
+      schema:
+        type: string
+        format: uuid
   securitySchemes:
     bearerAuth:
       type: oauth2
