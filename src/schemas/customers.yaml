@@ -15,45 +15,45 @@ paths:
           required: false
           schema:
             type: string
-            example: name.short_name
-        - name: name.name0
+            example: "name.name0"
+        - name: "name.name0"
           in: query
           required: false
           schema:
             type: string
             example: MAC
-        - name: name.name0
+        - name: "name.name0"
           in: query
           required: false
           schema:
             type: string
-            example: mac. exebition stands
-        - name: name.name1
+            example: "mac. exebition stands"
+        - name: "name.name1"
           in: query
           required: false
           schema:
             type: string
-            example: mac. brand spaces
-        - name: name.name2
+            example: "mac. brand spaces"
+        - name: "name.name2"
           in: query
           required: false
           schema:
             type: string
-            example: mac. Langenlonsheim
+            example: "mac. Langenlonsheim"
         - name: created_at
           in: query
           required: false
           schema:
             type: string
-            schema: date-time
-            example: 2020-01-01T00:00:00.000Z
+            format: date-time
+            example: "2020-01-01T00:00:00.000Z"
         - name: updated_at
           in: query
           required: false
           schema:
             type: string
-            schema: date-time
-            example: 2020-01-01T00:00:00.000Z
+            format: date-time
+            example: "2020-01-01T00:00:00.000Z"
       responses:
         '200':
           description: Successful response

@@ -1,6 +1,7 @@
 paths:
   /descriptions:
     post:
+      deprecated: false
       tags:
         - description
       summary: Create description
@@ -283,10 +284,23 @@ paths:
             type: string
             format: uuid
             example: 123e4567-e89b-12d3-a456-426614174000
-    security:
-      - bearerAuth:
-        - delete:project
-        - delete:project.all
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DescriptionLanguage'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DescriptionLanguage'
+      security:
+        - bearerAuth:
+          - delete:project
+          - delete:project.all
 
 components:
   schemas:
