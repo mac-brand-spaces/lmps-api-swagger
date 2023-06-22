@@ -14,7 +14,7 @@ servers:
   - url: https://api.mac.de/api/v2
     description: Production server
   - url: https://dev.api.mac.de/api/v2
-  description: Development server
+    description: Development server
   - url: http://localhost:3000/api/v2
     description: Local development server
   - url: https://lalovosnjsp001.mac-rz.net:3000/api/v2
