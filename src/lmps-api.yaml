@@ -6,7 +6,7 @@ info:
   termsOfService: https://www.mac.de/en/terms-and-conditions/
   contact:
     email: dev@mac.de
-  version: 2.0.0
+  version: 2.0.1
 externalDocs:
   description: github
   url: http://github.com/mac-brand-spaces/
