@@ -47,14 +47,14 @@ paths:
           required: false
           schema:
             type: string
-            schema: date-time
+            format: date-time
             example: 2020-01-01T00:00:00.000Z
         - name: end_date
           in: query
           required: false
           schema:
             type: string
-            schema: date-time
+            format: date-time
             example: 2020-01-01T00:00:00.000Z
         - name: cancel_state.cancelled
           in: query
@@ -67,7 +67,7 @@ paths:
           required: false
           schema:
             type: string
-            schema: date-time
+            format: date-time
             example: 2020-01-01T00:00:00.000Z
         - name: cancel_state.reason
           in: query
@@ -87,14 +87,14 @@ paths:
           required: false
           schema:
             type: string
-            schema: date-time
+            format: date-time
             example: 2020-01-01T00:00:00.000Z
         - name: updated_at
           in: query
           required: false
           schema:
             type: string
-            schema: date-time
+            format: date-time
             example: 2020-01-01T00:00:00.000Z
       responses:
         '200':
