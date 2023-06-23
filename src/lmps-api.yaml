@@ -56,6 +56,13 @@ paths:
         - name: $orderby
           in: query
           required: false
+          description: |-
+            The field to order by.
+            The default order is ascending.
+            To order descending, add DESC to the field.
+            To order ascending, add ASC to the field.
+            Allowed fields are:
+            af_date, ag_date, au_date, created_at, updated_at, class, booth_number, hall_number, costunit_number, title, booth_type, status
           schema:
             type: string
             default: "event.start_date asc"
@@ -70,10 +77,12 @@ paths:
           in: query
           required: false
           schema:
-            type: string
-            format: uuid
-            maxLength: 36
-            example: 123e4567-e89b-12d3-a456-426614174000
+            oneOf:
+              - type: string
+                format: uuid
+                maxLength: 36
+                example: 123e4567-e89b-12d3-a456-426614174000
+              - type: string
         - name: project_number
           in: query
           required: false
@@ -86,6 +95,7 @@ paths:
           schema:
             type: string
             example: AN
+            nullable: true
             enum:
               - AN
               - AG
@@ -97,31 +107,39 @@ paths:
           in: query
           required: false
           schema:
-            type: string
-            format: date
-            example: 2020-01-01T00:00:00.000Z
+            oneOf:
+              - type: string
+                format: date
+                example: 2020-01-01T00:00:00.000Z
+              - type: string
         - name: ag_date
           in: query
           required: false
           schema:
-            type: string
-            format: date
-            example: 2020-01-01T00:00:00.000Z
+            oneOf:
+              - type: string
+                format: date
+                example: 2020-01-01T00:00:00.000Z
+              - type: string
         - name: au_date
           in: query
           required: false
           schema:
-            type: string
-            format: date
-            example: 2020-01-01T00:00:00.000Z
+            oneOf:
+              - type: string
+                format: date
+                example: 2020-01-01T00:00:00.000Z
+              - type: string
         - name: customer_id
           in: query
           required: false
           schema:
-            type: string
-            format: uuid
-            maxLength: 36
-            example: 123e4567-e89b-12d3-a456-426614174000
+            oneOf:
+              - type: string
+                format: uuid
+                maxLength: 36
+                example: 123e4567-e89b-12d3-a456-426614174000
+              - type: string
         - name: costunit_number
           in: query
           required: false
@@ -138,23 +156,29 @@ paths:
           in: query
           required: false
           schema:
-            type: number
-            format: float
-            example: 1
+            oneOf:
+              - type: number
+                format: float
+                example: 1
+              - type: string
         - name: depth
           in: query
           required: false
           schema:
-            type: number
-            format: float
-            example: 1
+            oneOf:
+              - type: number
+                format: float
+                example: 1
+              - type: string
         - name: width
           in: query
           required: false
           schema:
-            type: number
-            format: float
-            example: 1
+            oneOf:
+              - type: number
+                format: float
+                example: 1
+              - type: string
         - name: hall_number
           in: query
           required: false
@@ -185,16 +209,20 @@ paths:
           in: query
           required: false
           schema:
-            type: string
-            format: date-time
-            example: 2020-01-01T00:00:00.000Z
+            oneOf:
+              - type: string
+                format: date-time
+                example: 2020-01-01T00:00:00.000Z
+              - type: string
         - name: updated_at
           in: query
           required: false
           schema:
-            type: string
-            format: date-time
-            example: 2020-01-01T00:00:00.000Z
+            oneOf:
+              - type: string
+                format: date-time
+                example: 2020-01-01T00:00:00.000Z
+              - type: string
       responses:
         '200':
           description: Successful response
@@ -366,16 +394,20 @@ paths:
           in: query
           required: false
           schema:
-            type: string
-            format: date-time
-            example: "2020-01-01T00:00:00.000Z"
+            oneOf:
+              - type: string
+                format: date-time
+                example: 2020-01-01T00:00:00.000Z
+              - type: string
         - name: updated_at
           in: query
           required: false
           schema:
-            type: string
-            format: date-time
-            example: "2020-01-01T00:00:00.000Z"
+            oneOf:
+              - type: string
+                format: date-time
+                example: 2020-01-01T00:00:00.000Z
+              - type: string
       responses:
         '200':
           description: Successful response
@@ -515,6 +547,10 @@ paths:
         - name: $orderby
           in: query
           required: false
+          description: |-
+            The order of the returned events.
+            The format is: <field_name> <ASC|DESC>
+            Allowed fields are: start_date, end_date, created_at, updated_at
           schema:
             type: string
             default: start_date asc
@@ -526,7 +562,7 @@ paths:
             type: string
             default: customer
             example: alternative_event
-        - name: event_id
+        - name: event_number
           in: query
           required: false
           schema:
@@ -548,16 +584,20 @@ paths:
           in: query
           required: false
           schema:
-            type: string
-            format: date-time
-            example: 2020-01-01T00:00:00.000Z
+            oneOf:
+              - type: string
+                format: date-time
+                example: 2020-01-01T00:00:00.000Z
+              - type: string
         - name: end_date
           in: query
           required: false
           schema:
-            type: string
-            format: date-time
-            example: 2020-01-01T00:00:00.000Z
+            oneOf:
+              - type: string
+                format: date-time
+                example: 2020-01-01T00:00:00.000Z
+              - type: string
         - name: cancel_state.cancelled
           in: query
           required: false
@@ -581,23 +621,30 @@ paths:
           in: query
           required: false
           schema:
-            type: string
-            format: uuid
-            example: 123e4567-e89b-12d3-a456-426614174000
+            oneOf:
+              - type: string
+                format: uuid
+                maxLength: 36
+                example: 00000000-0000-0000-0000-000000000000
+              - type: string
         - name: created_at
           in: query
           required: false
           schema:
-            type: string
-            format: date-time
-            example: 2020-01-01T00:00:00.000Z
+            oneOf:
+              - type: string
+                format: date-time
+                example: 2020-01-01T00:00:00.000Z
+              - type: string
         - name: updated_at
           in: query
           required: false
           schema:
-            type: string
-            format: date-time
-            example: 2020-01-01T00:00:00.000Z
+            oneOf:
+              - type: string
+                format: date-time
+                example: 2020-01-01T00:00:00.000Z
+              - type: string
       responses:
         '200':
           description: Successful response
@@ -861,7 +908,7 @@ paths:
         - bearerAuth:
           - delete:project
           - delete:project.all
-  /descriptions/{description_id}/language:
+  /descriptions/{description_id}/languages:
     post:
       tags:
         - description
@@ -901,7 +948,7 @@ paths:
         - bearerAuth:
           - create:project
           - create:project.all
-  /descriptions/{description_id}/language/{language_id}:
+  /descriptions/{description_id}/languages/{language_id}:
     get:
       tags:
         - description
@@ -1048,10 +1095,10 @@ components:
           example: 123e4567-e89b-12d3-a456-426614174000
           maxLength: 36
         event:
-          type: object
-          nullable: true
-          default: null
-          $ref: '#/components/schemas/Event'
+          oneOf:
+            - type: object
+              example: null
+            - $ref: '#/components/schemas/Event'
         project_number:
           type: string
           example: 1234
@@ -1101,7 +1148,10 @@ components:
           example: 123e4567-e89b-12d3-a456-426614174000
           maxLength: 36
         customer:
-          $ref: '#/components/schemas/Customer'
+          oneOf:
+            - type: object
+              example: null
+            - $ref: '#/components/schemas/Customer'
         costunit_number:
           type: string
           example: 010001
@@ -1119,10 +1169,10 @@ components:
           maxLength: 36
           nullable: true
         description:
-          type: object
-          nullable: true
-          default: null
-          $ref: '#/components/schemas/Description'
+          oneOf:
+            - type: object
+              example: null
+            - $ref: '#/components/schemas/Description'
         area:
           type: number
           format: float
@@ -1408,7 +1458,17 @@ components:
               example: 123e4567-e89b-12d3-a456-426614174000
               maxLength: 36
             alternative_event:
-              $ref: '#/components/schemas/Event'
+              oneOf:
+                - $ref: '#/components/schemas/Event'
+                - type: object
+                  example: null
+        projects:
+          oneOf:
+            - type: object
+              example: null
+            - type: array
+              items:
+                $ref: '#/components/schemas/Project'
         created_at:
           type: string
           format: date-time
