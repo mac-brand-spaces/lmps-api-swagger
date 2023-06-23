@@ -1,6 +1,6 @@
 {
   "name": "@mac-brand-spaces/lmps-api-swagger",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Swagger documentation for the LMPS API",
   "main": "./index.js",
   "types": "./types/index.d.ts",

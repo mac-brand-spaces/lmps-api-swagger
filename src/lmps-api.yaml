@@ -6,18 +6,18 @@ info:
   termsOfService: https://www.mac.de/en/terms-and-conditions/
   contact:
     email: dev@mac.de
-  version: 2.0.0
+  version: 2.0.1
 externalDocs:
   description: github
   url: http://github.com/mac-brand-spaces/
 servers:
-  - url: https://api.mac.de/api/v1
+  - url: https://api.mac.de/api/v2
     description: Production server
-  - url: https://dev.api.mac.de/api/v1
+  - url: https://dev.api.mac.de/api/v2
     description: Development server
-  - url: http://localhost:3000/api/v1
+  - url: http://localhost:3000/api/v2
     description: Local development server
-  - url: https://lalovosnjsp001.mac-rz.net:3000/
+  - url: https://lalovosnjsp001.mac-rz.net:3000/api/v2
     description: Current testing server
 tags:
   - name: project
