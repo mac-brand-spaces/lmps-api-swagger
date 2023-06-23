@@ -8,8 +8,8 @@ paths:
         Returns a list of events.
       operationId: getEvents
       parameters:
-        - $ref: './general.yaml#/components/parameters/limit'
-        - $ref: './general.yaml#/components/parameters/page'
+        - $ref: './../lmps-api.yaml#/components/parameters/limit'
+        - $ref: './../lmps-api.yaml#/components/parameters/page'
         - name: $orderby
           in: query
           required: false
@@ -153,7 +153,7 @@ paths:
         Returns an event.
       operationId: getEvent
       parameters:
-        - $ref: './general.yaml#/components/parameters/id'
+        - $ref: './../lmps-api.yaml#/components/parameters/id'
       responses:
         '200':
           description: Successful response
@@ -177,7 +177,7 @@ paths:
         Updates an event.
       operationId: updateEvent
       parameters:
-        - $ref: './general.yaml#/components/parameters/id'
+        - $ref: './../lmps-api.yaml#/components/parameters/id'
       requestBody:
         description: |-
           Event object
@@ -210,7 +210,7 @@ paths:
         Deletes an event.
       operationId: deleteEvent
       parameters:
-        - $ref: './general.yaml#/components/parameters/id'
+        - $ref: './../lmps-api.yaml#/components/parameters/id'
       responses:
         '204':
           description: Successful response

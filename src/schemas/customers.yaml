@@ -8,8 +8,8 @@ paths:
         Returns a list of customers.
       operationId: getCustomers
       parameters:
-        - $ref: './general.yaml#/components/parameters/limit'
-        - $ref: './general.yaml#/components/parameters/page'
+        - $ref: './../lmps-api.yaml#/components/parameters/limit'
+        - $ref: './../lmps-api.yaml#/components/parameters/page'
         - name: $oderby
           in: query
           required: false
@@ -111,7 +111,7 @@ paths:
         Returns a customer.
       operationId: getCustomer
       parameters:
-        - $ref: './general.yaml#/components/parameters/id'
+        - $ref: './../lmps-api.yaml#/components/parameters/id'
       responses:
         '200':
           description: Successful response
@@ -135,7 +135,7 @@ paths:
         Updates a customer.
       operationId: updateCustomer
       parameters:
-        - $ref: './general.yaml#/components/parameters/id'
+        - $ref: './../lmps-api.yaml#/components/parameters/id'
       requestBody:
         description: |-
           Customer object
@@ -168,7 +168,7 @@ paths:
         Deletes a customer.
       operationId: deleteCustomer
       parameters:
-        - $ref: './general.yaml#/components/parameters/id'
+        - $ref: './../lmps-api.yaml#/components/parameters/id'
       responses:
         '204':
           description: Successful response

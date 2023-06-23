@@ -1,2 +1,4 @@
 ./package.json
 ./src/lmps-api.yaml
+  - the swaggerfile version `info.version`
+  - the server url-paths `servers[{server}].url`
