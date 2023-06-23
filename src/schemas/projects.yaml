@@ -9,8 +9,8 @@ paths:
         This endpoint is paginated.
       operationId: getProjects
       parameters:
-        - $ref: './general.yaml#/components/parameters/page'
-        - $ref: './general.yaml#/components/parameters/limit'
+        - $ref: './../lmps-api.yaml#/components/parameters/limit'
+        - $ref: './../lmps-api.yaml#/components/parameters/page'
         - name: $orderby
           in: query
           required: false
@@ -210,7 +210,7 @@ paths:
         Returns a project.
       operationId: getProject
       parameters:
-        - $ref: './general.yaml#/components/parameters/id'
+        - $ref: './../lmps-api.yaml#/components/parameters/id'
       responses:
         '200':
           description: Successful response
@@ -234,7 +234,7 @@ paths:
         Updates a project.
       operationId: updateProject
       parameters:
-        - $ref: './general.yaml#/components/parameters/id'
+        - $ref: './../lmps-api.yaml#/components/parameters/id'
       requestBody:
         description: |-
           Project object
@@ -267,7 +267,7 @@ paths:
         Deletes a project.
       operationId: deleteProject
       parameters:
-        - $ref: './general.yaml#/components/parameters/id'
+        - $ref: './../lmps-api.yaml#/components/parameters/id'
       responses:
         '204':
           description: Successful response
