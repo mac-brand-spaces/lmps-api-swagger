@@ -42,28 +42,1254 @@ tags:
       url: https://github.com/mac-brand-spaces/lmps-api
 paths:
   /projects:
-    $ref: './schemas/projects.yaml#/paths/~1projects'
+    get:
+      tags:
+        - project
+      summary: Get all projects
+      description: |-
+        Returns all projects.
+        This endpoint is paginated.
+      operationId: getProjects
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/page'
+        - name: $orderby
+          in: query
+          required: false
+          schema:
+            type: string
+            default: "event.start_date asc"
+            example: created_at asc
+        - name: $expand
+          in: query
+          required: false
+          schema:
+            type: string
+            example: customer,event
+        - name: event_id
+          in: query
+          required: false
+          schema:
+            type: string
+            format: uuid
+            maxLength: 36
+            example: 123e4567-e89b-12d3-a456-426614174000
+        - name: project_number
+          in: query
+          required: false
+          schema:
+            type: string
+            example: 1234
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            example: AN
+            enum:
+              - AN
+              - AG
+              - AF
+              - OE
+              - AU
+              - XX
+        - name: af_date
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+            example: 2020-01-01T00:00:00.000Z
+        - name: ag_date
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+            example: 2020-01-01T00:00:00.000Z
+        - name: au_date
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+            example: 2020-01-01T00:00:00.000Z
+        - name: customer_id
+          in: query
+          required: false
+          schema:
+            type: string
+            format: uuid
+            maxLength: 36
+            example: 123e4567-e89b-12d3-a456-426614174000
+        - name: costunit_number
+          in: query
+          required: false
+          schema:
+            type: string
+            example: 1234
+        - name: title
+          in: query
+          required: false
+          schema:
+            type: string
+            example: Projekt
+        - name: area
+          in: query
+          required: false
+          schema:
+            type: number
+            format: float
+            example: 1
+        - name: depth
+          in: query
+          required: false
+          schema:
+            type: number
+            format: float
+            example: 1
+        - name: width
+          in: query
+          required: false
+          schema:
+            type: number
+            format: float
+            example: 1
+        - name: hall_number
+          in: query
+          required: false
+          schema:
+            type: string
+            example: 1
+        - name: booth_number
+          in: query
+          required: false
+          schema:
+            type: string
+            example: 1
+        - name: booth_type
+          in: query
+          required: false
+          schema:
+            type: string
+            example: KOPF
+            enum:
+              - KOPF
+              - REIHE
+              - ZELT
+              - BLOCK
+              - KEINE
+              - ECK
+              - PARTN
+        - name: created_at
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            example: 2020-01-01T00:00:00.000Z
+        - name: updated_at
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            example: 2020-01-01T00:00:00.000Z
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Project'
+                  meta:
+                    $ref: '#/components/schemas/Meta'
+        '400':
+          $ref: '#/components/responses/ErrorBadRequest'
+      security:
+        - bearerAuth:
+          - read:project
+          - read:project.all
+    post:
+      tags:
+        - project
+      summary: Create a project
+      description: |-
+        Creates a project.
+      operationId: createProject
+      requestBody:
+        description: |-
+          Project object
+          database_name: Projekt
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          $ref: '#/components/responses/ErrorBadRequest'
+      security:
+        - bearerAuth:
+          - create:project
   /projects/{id}:
-    $ref: './schemas/projects.yaml#/paths/~1projects~1{id}'
+    get:
+      tags:
+        - project
+      summary: Get a project
+      description: |-
+        Returns a project.
+      operationId: getProject
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          $ref: '#/components/responses/ErrorBadRequest'
+        '404':
+          $ref: '#/components/responses/ErrorNotFound'
+      security:
+        - bearerAuth:
+          - read:project
+          - read:project.all
+    put:
+      tags:
+        - project
+      summary: Update a project
+      description: |-
+        Updates a project.
+      operationId: updateProject
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        description: |-
+          Project object
+          database_name: Projekt
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          $ref: '#/components/responses/ErrorBadRequest'
+        '404':
+          $ref: '#/components/responses/ErrorNotFound'
+      security:
+        - bearerAuth:
+          - update:project
+          - update:project.all
+    delete:
+      tags:
+        - project
+      summary: Delete a project
+      description: |-
+        Deletes a project.
+      operationId: deleteProject
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: Successful response
+        '400':
+          $ref: '#/components/responses/ErrorBadRequest'
+        '404':
+          $ref: '#/components/responses/ErrorNotFound'
+      security:
+        - bearerAuth:
+          - delete:project
+          - delete:project.all
   /customers:
-    $ref: './schemas/customers.yaml#/paths/~1customers'
+    get:
+      tags:
+        - customer
+      summary: Get customers
+      description: |-
+        Returns a list of customers.
+      operationId: getCustomers
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/page'
+        - name: $oderby
+          in: query
+          required: false
+          schema:
+            type: string
+            example: "name.name0"
+        - name: "name.name0"
+          in: query
+          required: false
+          schema:
+            type: string
+            example: MAC
+        - name: "name.name0"
+          in: query
+          required: false
+          schema:
+            type: string
+            example: "mac. exebition stands"
+        - name: "name.name1"
+          in: query
+          required: false
+          schema:
+            type: string
+            example: "mac. brand spaces"
+        - name: "name.name2"
+          in: query
+          required: false
+          schema:
+            type: string
+            example: "mac. Langenlonsheim"
+        - name: created_at
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            example: "2020-01-01T00:00:00.000Z"
+        - name: updated_at
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            example: "2020-01-01T00:00:00.000Z"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Customer'
+                  meta:
+                    $ref: '#/components/schemas/Meta'
+        '400':
+          $ref: '#/components/responses/ErrorBadRequest'
+      security:
+        - bearerAuth:
+          - read:customer
+          - read:customer.all
+    post:
+      tags:
+        - customer
+      summary: Create a customer
+      description: |-
+        Creates a customer.
+      operationId: createCustomer
+      requestBody:
+        description: |-
+          Customer object
+          database_name: Kunde
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          $ref: '#/components/responses/ErrorBadRequest'
+      security:
+        - bearerAuth:
+          - create:customer
   /customers/{id}:
-    $ref: './schemas/customers.yaml#/paths/~1customers~1{id}'
+    get:
+      tags:
+        - customer
+      summary: Get a customer
+      description: |-
+        Returns a customer.
+      operationId: getCustomer
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          $ref: '#/components/responses/ErrorBadRequest'
+        '404':
+          $ref: '#/components/responses/ErrorNotFound'
+      security:
+        - bearerAuth:
+          - read:customer
+          - read:customer.all
+    put:
+      tags:
+        - customer
+      summary: Update a customer
+      description: |-
+        Updates a customer.
+      operationId: updateCustomer
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        description: |-
+          Customer object
+          database_name: Kunde
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          $ref: '#/components/responses/ErrorBadRequest'
+        '404':
+          $ref: '#/components/responses/ErrorNotFound'
+      security:
+        - bearerAuth:
+          - update:customer
+          - update:customer.all
+    delete:
+      tags:
+        - customer
+      summary: Delete a customer
+      description: |-
+        Deletes a customer.
+      operationId: deleteCustomer
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: Successful response
+        '400':
+          $ref: '#/components/responses/ErrorBadRequest'
+        '404':
+          $ref: '#/components/responses/ErrorNotFound'
+      security:
+        - bearerAuth:
+          - delete:customer
   /events:
-    $ref: './schemas/events.yaml#/paths/~1events'
+    get:
+      tags:
+        - event
+      summary: Get events
+      description: |-
+        Returns a list of events.
+      operationId: getEvents
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/page'
+        - name: $orderby
+          in: query
+          required: false
+          schema:
+            type: string
+            default: start_date asc
+            example: start_date asc
+        - name: $expand
+          in: query
+          required: false
+          schema:
+            type: string
+            default: customer
+            example: alternative_event
+        - name: event_id
+          in: query
+          required: false
+          schema:
+            type: string
+            example: 1
+        - name: title
+          in: query
+          required: false
+          schema:
+            type: string
+            example: Test Event
+        - name: customer_id
+          in: query
+          required: false
+          schema:
+            type: string
+            example: 1
+        - name: start_date
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            example: 2020-01-01T00:00:00.000Z
+        - name: end_date
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            example: 2020-01-01T00:00:00.000Z
+        - name: cancel_state.cancelled
+          in: query
+          required: false
+          schema:
+            type: boolean
+            example: true
+        - name: cancel_state.cancelled_at
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            example: 2020-01-01T00:00:00.000Z
+        - name: cancel_state.reason
+          in: query
+          required: false
+          schema:
+            type: string
+            example: Test Reason
+        - name: cancel_state.alternative_event_id
+          in: query
+          required: false
+          schema:
+            type: string
+            format: uuid
+            example: 123e4567-e89b-12d3-a456-426614174000
+        - name: created_at
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            example: 2020-01-01T00:00:00.000Z
+        - name: updated_at
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            example: 2020-01-01T00:00:00.000Z
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Event'
+                  meta:
+                    $ref: '#/components/schemas/Meta'
+        '400':
+          $ref: '#/components/responses/ErrorBadRequest'
+      security:
+        - bearerAuth:
+          - read:event
+          - read:event.all
+    post:
+      tags:
+        - event
+      summary: Create an event
+      description: |-
+        Creates an event.
+      operationId: createEvent
+      requestBody:
+        description: |-
+          Event object
+          database_name: Veranstaltung
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '400':
+          $ref: '#/components/responses/ErrorBadRequest'
+      security:
+        - bearerAuth:
+          - create:event
   /events/{id}:
-    $ref: './schemas/events.yaml#/paths/~1events~1{id}'
+    get:
+      tags:
+        - event
+      summary: Get an event
+      description: |-
+        Returns an event.
+      operationId: getEvent
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '400':
+          $ref: '#/components/responses/ErrorBadRequest'
+        '404':
+          $ref: '#/components/responses/ErrorNotFound'
+      security:
+        - bearerAuth:
+          - read:event
+          - read:event.all
+    put:
+      tags:
+        - event
+      summary: Update an event
+      description: |-
+        Updates an event.
+      operationId: updateEvent
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        description: |-
+          Event object
+          database_name: Veranstaltung
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '400':
+          $ref: '#/components/responses/ErrorBadRequest'
+        '404':
+          $ref: '#/components/responses/ErrorNotFound'
+      security:
+        - bearerAuth:
+          - update:event
+          - update:event.all
+    delete:
+      tags:
+        - event
+      summary: Delete an event
+      description: |-
+        Deletes an event.
+      operationId: deleteEvent
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: Successful response
+        '400':
+          $ref: '#/components/responses/ErrorBadRequest'
+        '404':
+          $ref: '#/components/responses/ErrorNotFound'
+      security:
+        - bearerAuth:
+          - delete:event
+          - delete:event.all
   /descriptions:
-    $ref: './schemas/descriptions.yaml#/paths/~1descriptions'
+    post:
+      deprecated: false
+      tags:
+        - description
+      summary: Create description
+      description: |-
+        Creates a description.
+      operationId: createDescription
+      requestBody:
+        description: Description object that needs to be added
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Description'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Description'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Description'
+      security:
+        - bearerAuth:
+          - create:project
+          - create:project.all
   /descriptions/{id}:
-    $ref: './schemas/descriptions.yaml#/paths/~1descriptions~1{id}'
+    get:
+      tags:
+        - description
+      summary: Get description
+      description: |-
+        Returns a description.
+      operationId: getDescription
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 123e4567-e89b-12d3-a456-426614174000
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Description'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Description'
+      security:
+        - bearerAuth:
+          - read:project
+          - read:project.all
+    put:
+      tags:
+        - description
+      summary: Update description
+      description: |-
+        Updates a description.
+      operationId: updateDescription
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 123e4567-e89b-12d3-a456-426614174000
+      requestBody:
+        description: Description object that needs to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Description'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Description'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Description'
+      security:
+        - bearerAuth:
+          - update:project
+          - update:project.all
+    delete:
+      tags:
+        - description
+      summary: Delete description
+      description: |-
+        Deletes a description.
+      operationId: deleteDescription
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 123e4567-e89b-12d3-a456-426614174000
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Description'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Description'
+      security:
+        - bearerAuth:
+          - delete:project
+          - delete:project.all
   /descriptions/{description_id}/language:
-    $ref: './schemas/descriptions.yaml#/paths/~1descriptions~1{description_id}~1language'
+    post:
+      tags:
+        - description
+      summary: Create description language
+      description: |-
+        Creates a description language.
+      operationId: createDescriptionLanguage
+      parameters:
+        - name: description_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 123e4567-e89b-12d3-a456-426614174000
+      requestBody:
+        description: Description language object that needs to be added
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DescriptionLanguage'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DescriptionLanguage'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DescriptionLanguage'
+      security:
+        - bearerAuth:
+          - create:project
+          - create:project.all
   /descriptions/{description_id}/language/{language_id}:
-    $ref: './schemas/descriptions.yaml#/paths/~1descriptions~1{description_id}~1language~1{language_id}'
+    get:
+      tags:
+        - description
+      summary: Get description language
+      description: |-
+        Returns a description language.
+      operationId: getDescriptionLanguage
+      parameters:
+        - name: description_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 123e4567-e89b-12d3-a456-426614174000
+        - name: language_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 123e4567-e89b-12d3-a456-426614174000
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DescriptionLanguage'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DescriptionLanguage'
+      security:
+        - bearerAuth:
+          - read:project
+          - read:project.all
+    put:
+      tags:
+        - description
+      summary: Update description language
+      description: |-
+        Updates a description language.
+      operationId: updateDescriptionLanguage
+      parameters:
+        - name: description_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 123e4567-e89b-12d3-a456-426614174000
+        - name: language_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 123e4567-e89b-12d3-a456-426614174000
+      requestBody:
+        description: Description language object that needs to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DescriptionLanguage'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DescriptionLanguage'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DescriptionLanguage'
+      security:
+        - bearerAuth:
+          - update:project
+          - update:project.all
+    delete:
+      tags:
+        - description
+      summary: Delete description language
+      description: |-
+        Deletes a description language.
+      operationId: deleteDescriptionLanguage
+      parameters:
+        - name: description_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 123e4567-e89b-12d3-a456-426614174000
+        - name: language_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 123e4567-e89b-12d3-a456-426614174000
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DescriptionLanguage'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DescriptionLanguage'
+      security:
+        - bearerAuth:
+          - delete:project
+          - delete:project.all
 
 components:
   schemas:
+    Project:
+      type: object
+      description: |-
+        Project object
+        database_name: Projekt
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+          readOnly: true
+          nullable: false
+          maxLength: 36
+        event_id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+          maxLength: 36
+        event:
+          type: object
+          nullable: true
+          default: null
+          $ref: '#/components/schemas/Event'
+        project_number:
+          type: string
+          example: 1234
+          maxLength: 3
+          readOnly: true
+        status:
+          type: string
+          format: enum
+          example: AN
+          maxLength: 2
+          maxItems: 1
+          enum:
+            - AN
+            - AG
+            - AF
+            - OE
+            - AU
+            - XX
+          description: |-
+            AN = Request (Anfrage)
+            AG = Offer (Angebot)
+            AF = Order (Auftrag)
+            OE = Open items (Offene Posten)
+            AU = Completed (Abgeschlossen)
+            XX = Canceled (Storniert)
+        af_date:
+          type: string
+          format: date-time
+          example: 2020-01-01T00:00:00.000Z
+          nullable: true
+          readOnly: true
+        ag_date:
+          type: string
+          format: date-time
+          example: 2020-01-01T00:00:00.000Z
+          nullable: true
+          readOnly: true
+        au_date:
+          type: string
+          format: date-time
+          example: 2020-01-01T00:00:00.000Z
+          nullable: true
+          readOnly: true
+        customer_id: 
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+          maxLength: 36
+        customer:
+          $ref: '#/components/schemas/Customer'
+        costunit_number:
+          type: string
+          example: 010001
+          maxLength: 6
+          readOnly: true
+        title:
+          type: string
+          example: Test Project
+          maxLength: 60
+          nullable: true
+        description_id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+          maxLength: 36
+          nullable: true
+        description:
+          type: object
+          nullable: true
+          default: null
+          $ref: '#/components/schemas/Description'
+        area:
+          type: number
+          format: float
+          example: 1234.56
+          nullable: true
+        depth:
+          type: number
+          format: float
+          example: 1234.56
+          nullable: true
+        hall_number:
+          type: string
+          example: 1234
+          maxLength: 4
+        width:
+          type: number
+          format: float
+          example: 1234.56
+          nullable: true
+        booth_number:
+          type: string
+          example: 1234
+          maxLength: 10
+          nullable: true
+        booth_type:
+          type: string
+          format: enum
+          maxLength: 5
+          enum:
+            - KOPF
+            - REIHE
+            - ZELT
+            - BLOCK
+            - KEINE
+            - ECK
+            - PARTN
+          description: |-
+            KOPF = Head-booth (Kopfstand)
+            REIHE = Row-booth (Reihenstand)
+            ZELT = Tent-booth (Zeltstand)
+            BLOCK = Block-booth (Blockstand)
+            KEINE = not specified (keine Angabe)
+            ECK = Corner-booth (Eckstand)
+            PARTN = Partner-booth (Partnerstand)
+          example: KOPF
+        created_at:
+          type: string
+          format: date-time
+          example: 2020-01-01T00:00:00.000Z
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          example: 2020-01-01T00:00:00.000Z
+          readOnly: true
+    Customer:
+      type: object
+      description: |-
+        Customer object
+        database_name: Kunde
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+          readOnly: true
+          nullable: false
+          maxLength: 36
+        name:
+          type: object
+          properties:
+            short_name:
+              type: string
+              nullable: false
+              example: MAC
+              maxLength: 15
+              description: |-
+                database_name: Bez
+            name0:
+              type: string
+              nullable: true
+              example: mac. exebition stands
+              maxLength: 30
+              description: |-
+                database_name: Anrede
+            name1:
+              type: string
+              nullable: true
+              maxLength: 45
+              example: mac. brand spaces
+            name2:
+              type: string
+              nullable: true
+              maxLength: 45
+              example: mac. Langenlonsheim
+        location:
+          $ref: '#/components/schemas/Location'
+        contacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contact'
+        products:
+          type: array
+          items:
+            type: string
+            example: Test Product
+            maxLength: 240
+        sales:
+          type: string
+          example: idk //TODO
+        created_at:
+          type: string
+          format: date-time
+          example: 2020-01-01T00:00:00.000Z
+        updated_at:
+          type: string
+          format: date-time
+          example: 2020-01-01T00:00:00.000Z
+    Location:
+      type: object
+      description: |
+        Location object
+        database_info: this doesnt exist in that way. could be generated by the api at runtime until impl in database is possible.
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+          readOnly: true
+          nullable: false
+          deprecated: true
+          maxLength: 36
+        type:
+          type: string
+          format: enum
+          enum:
+            - customer
+            - site
+            - exhibition
+          example: customer
+        title:
+          type: string
+          example: Test Location
+        street:
+          type: string
+          example: Test Street
+          maxLength: 45
+        zip:
+          type: string
+          example: 12345
+          maxLength: 6
+        city:
+          type: string
+          example: Test City
+          maxLength: 45
+        country:
+          type: string
+          example: Test Country
+          maxLength: 45
+        created_at:
+          type: string
+          format: date-time
+          example: 2020-01-01T00:00:00.000Z
+        updated_at:
+          type: string
+          format: date-time
+          example: 2020-01-01T00:00:00.000Z
     Item:
       type: object
       properties:
@@ -87,6 +1313,231 @@ components:
           nullable: true
           deprecated: true
         # TODO: add more properties here
+    Meta:
+      type: object
+      properties:
+        pagination:
+          type: object
+          properties:
+            total:
+              type: integer
+              format: int32
+              example: 1
+              description: Total number of items available
+            count:
+              type: integer
+              format: int32
+              example: 1
+              description: Number of items returned
+            per_page:
+              type: integer
+              format: int32
+              example: 1
+              description: Number of items per page
+            current_page:
+              type: integer
+              format: int32
+              example: 1
+              description: Current page
+            total_pages:
+              type: integer
+              format: int32
+              example: 1
+              description: Total number of pages
+            links:
+              type: object
+              properties:
+                previous:
+                  type: string
+                  example: http://example.com/api/v1/projects?page=1
+                next:
+                  type: string
+                  example: http://example.com/api/v1/projects?page=3
+    Event:
+      type: object
+      description: |-
+        Event object
+        database_name: Messe
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+          readOnly: true
+          nullable: false
+          maxLength: 36
+        event_id:
+          type: string
+          example: 12345
+          maxLength: 5
+        title:
+          type: string
+          example: Test Event
+          maxLength: 30
+        location:
+          $ref: '#/components/schemas/Location'
+        revision:
+          type: number
+          format: int32
+          example: 1
+        start_date:
+          type: string
+          format: date-time
+          example: 2020-01-01T00:00:00.000Z
+        end_date:
+          type: string
+          format: date-time
+          example: 2020-01-01T00:00:00.000Z
+        cancel_state:
+          nullable: true
+          type: object
+          properties:
+            canceled:
+              type: boolean
+              example: true
+            canceled_at:
+              type: string
+              format: date-time
+              example: 2020-01-01T00:00:00.000Z
+            reason:
+              type: string
+              example: Test Reason
+            alternative_event_id:
+              type: string
+              format: uuid
+              example: 123e4567-e89b-12d3-a456-426614174000
+              maxLength: 36
+            alternative_event:
+              $ref: '#/components/schemas/Event'
+        created_at:
+          type: string
+          format: date-time
+          example: 2020-01-01T00:00:00.000Z
+        updated_at:
+          type: string
+          format: date-time
+          example: 2020-01-01T00:00:00.000Z
+    Description:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+          maxLength: 36
+          nullable: true
+        languages:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/DescriptionLanguage'
+    DescriptionLanguage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+          maxLength: 36
+        language:
+          type: string
+          example: DEU
+          maxLength: 5
+        text:
+          type: string
+          nullable: true
+          format: "clob"
+          example: Test Project
+          description: This field can be pretty long as it is a "clob" in the database.
+    Contact:
+      type: object
+      description: |-
+        Represents a contact for a person or a site.
+        database_info: this doesnt exist in that way. could be generated by the api at runtime until impl in database is possible.
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+          readOnly: true
+          nullable: false
+          deprecated: true
+        type:
+          type: string
+          format: enum
+          enum:
+            - person
+            - site
+          example: person
+        name:
+          type: string
+          example: John Doe
+          maxLength: 45
+        phone:
+          type: string
+          example: +49-1234-567890
+          maxLength: 30
+        fax:
+          type: string
+          example: +49-1234-567890
+          maxLength: 30
+        postbox:
+          type: string
+          example: 12345
+          maxLength: 30
+        email:
+          type: string
+          example: john.doe@cars.com
+          maxLength: 60
+  responses:
+    ErrorNotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+                example: 404
+              message:
+                type: string
+                example: The requested resource was not found
+              timestamp:
+                type: string
+                format: date-time
+                example: 2020-01-01T00:00:00.000Z
+              path:
+                type: string
+                example: /api/v1/projects/123e4567-e89b-12d3-a456-426614174000
+              lmps_tracking_id:
+                type: string
+                example: 123e4567-e89b-12d3-a456-426614174000
+    ErrorBadRequest:
+      description: The request was invalid or cannot be otherwise served
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+                example: 400
+              message:
+                type: string
+                example: The request was invalid or cannot be otherwise served
+              timestamp:
+                type: string
+                format: date-time
+                example: 2020-01-01T00:00:00.000Z
+              path:
+                type: string
+                example: /api/v1/projects/123e4567-e89b-12d3-a456-426614174000
+              lmps_tracking_id:
+                type: string
+                example: 123e4567-e89b-12d3-a456-426614174000
   parameters:
     page:
       name: $page
