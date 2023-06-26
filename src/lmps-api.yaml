@@ -366,7 +366,7 @@ paths:
           schema:
             type: string
             example: "name.name0"
-        - name: "name.name0"
+        - name: "name.short_name"
           in: query
           required: false
           schema:
