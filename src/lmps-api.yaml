@@ -1416,7 +1416,7 @@ components:
           readOnly: true
           nullable: false
           maxLength: 36
-        event_id:
+        event_number:
           type: string
           example: 12345
           maxLength: 5
