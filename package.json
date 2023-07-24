@@ -19,7 +19,7 @@
     "lint": "npx swagger-cli validate ./src/lmps-api.yaml",
     "generate-json": "npx swagger-cli bundle -t json -o ./dist/openapi.json ./src/lmps-api.yaml",
     "generate-typescript-types": "npx swagger-typescript-api -p ./dist/openapi.json -o ./dist -d -n api_types.d.ts --silent --no-client --route-types --extract-response-error --add-readonly",
-    "postinstall": "npm run generate-json && npm run generate-typescript-types"
+    "build": "npm run generate-json && npm run generate-typescript-types"
   },
   "keywords": ["swagger", "api", "lmps", "lmpsplus"],
   "author": "mac-brand-spaces",
