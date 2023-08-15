@@ -31,7 +31,7 @@
     }
   ],
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
     "swagger-cli": "^4.0.4",
     "swagger-typescript-api": "^13.0.3"
   },
